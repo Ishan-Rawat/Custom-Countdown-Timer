@@ -9,7 +9,7 @@ public class myFrame extends JFrame implements ActionListener{
 	JButton upButton;
 	myFrame(){
 		this.setSize(500, 500);
-		this.setVisible(true);
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Countdown timer");
 		
@@ -23,6 +23,7 @@ public class myFrame extends JFrame implements ActionListener{
 		upButton.setIcon(up);
 		
 		this.add(upButton);
+		this.setVisible(true); // you should put this line at the end or the components won't show up. and a whole bunch of issues
 		
 	}
 	
