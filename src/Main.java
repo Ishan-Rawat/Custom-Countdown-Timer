@@ -13,10 +13,6 @@ import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// abhi problem yeh hai ki JButton ko myFrame mai implement kar diya toh intTime ko modify kaise karunga. 
-// Aur JButton is class mai implement ho nahi raha hai
-// Button ko seedhe frame mai add kara hai aur panel ko bhi, fir bhi somehow button panel ke upar aa raha hai.
-// gotta get my shit together. lets create the frame and the panel and the label and the button in the same class now!.
 public class Main {
 	static int intTime = 60;
 	
@@ -32,25 +28,13 @@ public class Main {
 		mainPanel.setBackground(new Color(41,19,46));
 		mainPanel.setLayout(null);
 		
-		//--------------------------------TIME LABEL---------------------
-		/*
-		String stringTime= String.valueOf(intTime);
-		
-		JLabel time = new JLabel();
-		time.setText(stringTime);
-		time.setHorizontalTextPosition(JLabel.CENTER);
-		time.setVerticalTextPosition(JLabel.CENTER);
-		time.setFont(new Font("Helvetica", Font.PLAIN, 50));
-		time.setForeground(new Color(222,0,42));
-		time.setBounds(120, 10, 200, 200);
-		*/
 		//---------------------------------BUTTONS------------------------
-		upButtonAction button = new upButtonAction();
-		//ImageIcon down = new ImageIcon("C:\\Users\\ishan\\eclipse-workspace\\Countdown Timer\\down.png");
+		ButtonAction button = new ButtonAction();
 		
 		//---------------------------------FINAL ADDITIONS----------------
 		mainPanel.add(button.time);
 		mainPanel.add(button.upButton);
+		mainPanel.add(button.downButton);
 		frame.add(mainPanel);
 		frame.setVisible(true); // you should put this line at the end or the components won't show up. and a whole bunch of issues. 
 		//But now the setBounds method of upButton doesnt work. This can be fixed by setting panel.setLayout(null) 
@@ -58,22 +42,32 @@ public class Main {
 	}
 }
 // Turns out, you dont really need ChangeListener class to update Time on screen 
-class upButtonAction implements ActionListener{
+class ButtonAction implements ActionListener{
 	JButton upButton;
+	JButton downButton;
 	JLabel time;
 	String stringTime;
-	public upButtonAction() {
+	public ButtonAction() {
 		// The idea is to create a JButton with this constructor.
+		//-------------------------Up Button-------------------------------------
 		upButton = new JButton();
 		upButton.addActionListener(this);
 		upButton.setFocusable(false);
 		upButton.setBackground(new Color(50,20,80));
 		upButton.setBounds(10, 10, 100, 50); // x, y, width, height
-		
 		ImageIcon up = new ImageIcon("C:\\Users\\ishan\\eclipse-workspace\\Countdown Timer\\up.png");
 		upButton.setIcon(up);
 		
-		//---------------Label---------------
+		//-------------------------Down Button------------------------------------
+		downButton= new JButton();
+		downButton.addActionListener(this);
+		downButton.setFocusable(false);
+		downButton.setBackground(new Color(50,20,80));
+		downButton.setBounds(10, 70, 100, 50);
+		ImageIcon down = new ImageIcon("C:\\Users\\ishan\\eclipse-workspace\\Countdown Timer\\down.png");
+		downButton.setIcon(down);
+		
+		//---------------Time Label---------------
 		time = new JLabel();
 		stringTime= String.valueOf(Main.intTime);
 		time.setText(stringTime);
@@ -89,16 +83,11 @@ class upButtonAction implements ActionListener{
 			//System.out.println("Button clicked!");
 			Main.intTime++;
 			time.setText(String.valueOf(Main.intTime));
-			System.out.println(Main.intTime);
+		}
+		else if(e.getSource()==downButton) {
+			Main.intTime--;
+			time.setText(String.valueOf(Main.intTime));
 		}
 	}
 	
-	/*
-	public void stateChanged(ChangeEvent e) {
-		Main.intTime++;
-		time.setText(stringTime);
-		//label.setFont(new Font("Helvitica", Font.PLAIN, 25));
-		System.out.println(Main.intTime);
-	}
-	*/
 }
