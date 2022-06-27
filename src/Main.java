@@ -211,6 +211,31 @@ class ButtonAction implements ActionListener{
 		}
 	};
 	*/
+	Timer timer = new Timer();
+	
+	TimerTask task = new TimerTask() {
+		public void run() {
+			if(Main.intTime>0) {
+				Main.intTime--;
+				currentSection = (Main.intTime/secsPerSection) + 1;
+				currSection.setText(String.valueOf(currentSection));
+				
+				sectionTimerSeconds = (Main.intTime % secsPerSection);
+				sectionTimerMinutes = (sectionTimerSeconds) / 60;
+				mainTimer.setText(String.valueOf(sectionTimerMinutes) +" : " + String.valueOf(sectionTimerSeconds));
+				if(sectionTimerSeconds<secsPerSection && sectionTimerSeconds>=(secsPerSection-sectionTimeRed)) {
+					mainTimer.setForeground(new Color(222,0,42));
+				}
+				else {
+					mainTimer.setForeground(new Color(66,135,245));
+				}
+				
+			}
+			else {
+				timer.cancel();
+			}
+		}
+	};
 	public ButtonAction() {
 		//The following image icons will be used by all the buttons
 		ImageIcon up = new ImageIcon("C:\\Users\\ishan\\eclipse-workspace\\Countdown Timer\\up_super_smol.png");
@@ -384,6 +409,54 @@ class ButtonAction implements ActionListener{
 			timer.cancel();
 		}
 	*/
+		if(e.getSource()==timeSetterUp) {
+			Main.intTime++;
+			timeSetterMinutes.setText(String.valueOf(Main.intTime/60));
+			timeSetterSeconds.setText(String.valueOf(Main.intTime%60));
+		}
+		else if(e.getSource()==timeSetterDown) {
+			Main.intTime--;
+			timeSetterSeconds.setText(String.valueOf(Main.intTime%60));
+			timeSetterMinutes.setText(String.valueOf(Main.intTime/60));
+		}
+		else if(e.getSource()==sectionUp) {
+			noOfSections++;
+			secsPerSection = Main.intTime / noOfSections; // calculate this value again. do we need to do this?
+			sectionTimeRed = (secsPerSection / (sectionRatioX + sectionRatioY))*sectionRatioX;
+			noSections.setText(String.valueOf(noOfSections));
+		}
+		else if(e.getSource()==sectionDown) {
+			noOfSections--;
+			secsPerSection = Main.intTime / noOfSections; // calculate this value again. do we need to do this?
+			sectionTimeRed = (secsPerSection / (sectionRatioX + sectionRatioY))*sectionRatioX;
+			noSections.setText(String.valueOf(noOfSections));
+		}
+		else if(e.getSource()==Xup) {
+			sectionRatioX++;
+			sectionTimeRed = (secsPerSection / (sectionRatioX + sectionRatioY))*sectionRatioX;
+			ratioX.setText(String.valueOf(sectionRatioX));
+		}
+		else if(e.getSource()==Xdown) {
+			sectionRatioX--;
+			sectionTimeRed = (secsPerSection / (sectionRatioX + sectionRatioY))*sectionRatioX;
+			ratioX.setText(String.valueOf(sectionRatioX));
+		}
+		else if(e.getSource()==Yup) {
+			sectionRatioY++;
+			sectionTimeRed = (secsPerSection / (sectionRatioX + sectionRatioY))*sectionRatioX;
+			ratioY.setText(String.valueOf(sectionRatioY));
+		}
+		else if(e.getSource()==Ydown) {
+			sectionRatioY--;
+			sectionTimeRed = (secsPerSection / (sectionRatioX + sectionRatioY))*sectionRatioX;
+			ratioY.setText(String.valueOf(sectionRatioY));
+		}
+		else if(e.getSource()==startButton) {
+			timer.schedule(task, 0, 1000);
+		}
+		else if(e.getSource()==stopButton) {
+			timer.cancel();
+		}
 	}
 	
 }
